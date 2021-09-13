@@ -23,7 +23,7 @@ namespace CacheSimulator
 
 
             // parse the input file into the simulator:
-            //*********************************************************************************************************
+            //******************************************************************
             string filePath = args[0];
             using (var file = File.OpenText(filePath))
             {
@@ -51,9 +51,8 @@ namespace CacheSimulator
 
 
 
-
             // calculate and display results:
-            //*********************************************************************************************************
+            //***************************************************************************
             //double L1MissRate = (double)memory.L1.missNum / memory.L1.acssesNum;
             //double L2MissRate = (double)memory.L2.missNum / memory.L2.acssesNum;
             //double avgAccTime = (double)memory.totalTime / memory.acessNum;
@@ -63,14 +62,13 @@ namespace CacheSimulator
             //printf("AccTimeAvg=%.03f\n", avgAccTime);
 
             return 0;
-
-
-            
-
         }
 
 
 
+        /*      a function to gradually access the layers
+         *      of the Memory-System to find some data                                      */
+        //=====================================================================================
         private static void handleMemoryRequest(char operation, uint address)
         {
             //++memory.L1.acssesNum;
@@ -104,7 +102,9 @@ namespace CacheSimulator
 
 
 
-
+        /*      a method for verifying a proper
+         *      opening of the input file                                       */
+        //=========================================================================
         private static bool fileIsVerified(StreamReader file)
         {
             if (file == null)
@@ -119,7 +119,9 @@ namespace CacheSimulator
 
 
 
-
+        /*      a method to assign all the values into
+         *      Main's variables - foe feeding the data-structure.                                              */
+        //=========================================================================================================
         private static bool assignVariables(string[] args, out ushort WrAlloc, out ushort MemCyc, out ushort BSize,
                                             out ushort L1Size, out ushort L1Cyc, out ushort L1Assoc,
                                             out ushort L2Size, out ushort L2Cyc, out ushort L2Assoc)
@@ -133,11 +135,8 @@ namespace CacheSimulator
             L2Size = 0;
             L2Cyc = 0;
             L2Assoc = 0;
+            if (!argsAreVerified(args))  return false;
 
-            if (!argsAreVerified(args))
-            {
-                return false;
-            }
 
             for (int i = 1; i < 18; i += 2)
             {
@@ -192,6 +191,10 @@ namespace CacheSimulator
 
 
 
+
+        /*      a method to verify the acceptance of all
+         *      18 parameters that should have passed.                                      */
+        //=====================================================================================
         private static bool argsAreVerified(string[] args)
         {
             if (args.Length < 18)
@@ -206,7 +209,9 @@ namespace CacheSimulator
 
 
 
-
+        /*      helper function for extracting decimal-integers 
+                out of boulian-representation.                                                                  */
+        //=========================================================================================================
         public static uint ExtractBits(uint number, int k, int p)
         {
             if ( (p<1) || (p>32) ) throw new ArgumentOutOfRangeException("position must be in range of 32-bits");
