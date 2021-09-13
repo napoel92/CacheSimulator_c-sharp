@@ -25,9 +25,9 @@ namespace CacheSimulator
             sets = new List<List<MemoryBlock>>(setsNumber);
 
             var waysNumber = (int)Math.Pow(2, associativity);
-            for (int i = 0; i < sets.Count ; ++i)
+            for (int i = 0; i < sets.Capacity ; ++i)
             {
-                sets[i].Capacity = waysNumber;
+                sets.Add(new List<MemoryBlock>(waysNumber));
             }
 
             cacheSize = (uint)sets.Capacity;
