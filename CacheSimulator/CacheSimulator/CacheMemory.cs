@@ -1,0 +1,8 @@
+﻿namespace CacheSimulator
+{
+    class CacheMemory
+    {
+
+    }
+}
+

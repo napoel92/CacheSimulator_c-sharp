@@ -1,0 +1,32 @@
+C:\Users\offhemo\source\repos\CacheSimulator\CacheSimulator\bin\Debug\net5.0\CacheSimulator.exe
+C:\Users\offhemo\source\repos\CacheSimulator\CacheSimulator\bin\Debug\net5.0\CacheSimulator.deps.json
+C:\Users\offhemo\source\repos\CacheSimulator\CacheSimulator\bin\Debug\net5.0\CacheSimulator.runtimeconfig.json
+C:\Users\offhemo\source\repos\CacheSimulator\CacheSimulator\bin\Debug\net5.0\CacheSimulator.runtimeconfig.dev.json
+C:\Users\offhemo\source\repos\CacheSimulator\CacheSimulator\bin\Debug\net5.0\CacheSimulator.dll
+C:\Users\offhemo\source\repos\CacheSimulator\CacheSimulator\bin\Debug\net5.0\ref\CacheSimulator.dll
+C:\Users\offhemo\source\repos\CacheSimulator\CacheSimulator\bin\Debug\net5.0\CacheSimulator.pdb
+C:\Users\offhemo\source\repos\CacheSimulator\CacheSimulator\obj\Debug\net5.0\CacheSimulator.csproj.AssemblyReference.cache
+C:\Users\offhemo\source\repos\CacheSimulator\CacheSimulator\obj\Debug\net5.0\CacheSimulator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\offhemo\source\repos\CacheSimulator\CacheSimulator\obj\Debug\net5.0\CacheSimulator.AssemblyInfoInputs.cache
+C:\Users\offhemo\source\repos\CacheSimulator\CacheSimulator\obj\Debug\net5.0\CacheSimulator.AssemblyInfo.cs
+C:\Users\offhemo\source\repos\CacheSimulator\CacheSimulator\obj\Debug\net5.0\CacheSimulator.csproj.CoreCompileInputs.cache
+C:\Users\offhemo\source\repos\CacheSimulator\CacheSimulator\obj\Debug\net5.0\CacheSimulator.dll
+C:\Users\offhemo\source\repos\CacheSimulator\CacheSimulator\obj\Debug\net5.0\ref\CacheSimulator.dll
+C:\Users\offhemo\source\repos\CacheSimulator\CacheSimulator\obj\Debug\net5.0\CacheSimulator.pdb
+C:\Users\offhemo\source\repos\CacheSimulator\CacheSimulator\obj\Debug\net5.0\CacheSimulator.genruntimeconfig.cache
+C:\Users\offhemo\OneDrive - KLA Corporation\Desktop\docs_&_shit\c_sharp\CacheSimulator\CacheSimulator\bin\Debug\net5.0\CacheSimulator.exe
+C:\Users\offhemo\OneDrive - KLA Corporation\Desktop\docs_&_shit\c_sharp\CacheSimulator\CacheSimulator\bin\Debug\net5.0\CacheSimulator.deps.json
+C:\Users\offhemo\OneDrive - KLA Corporation\Desktop\docs_&_shit\c_sharp\CacheSimulator\CacheSimulator\bin\Debug\net5.0\CacheSimulator.runtimeconfig.json
+C:\Users\offhemo\OneDrive - KLA Corporation\Desktop\docs_&_shit\c_sharp\CacheSimulator\CacheSimulator\bin\Debug\net5.0\CacheSimulator.runtimeconfig.dev.json
+C:\Users\offhemo\OneDrive - KLA Corporation\Desktop\docs_&_shit\c_sharp\CacheSimulator\CacheSimulator\bin\Debug\net5.0\CacheSimulator.dll
+C:\Users\offhemo\OneDrive - KLA Corporation\Desktop\docs_&_shit\c_sharp\CacheSimulator\CacheSimulator\bin\Debug\net5.0\ref\CacheSimulator.dll
+C:\Users\offhemo\OneDrive - KLA Corporation\Desktop\docs_&_shit\c_sharp\CacheSimulator\CacheSimulator\bin\Debug\net5.0\CacheSimulator.pdb
+C:\Users\offhemo\OneDrive - KLA Corporation\Desktop\docs_&_shit\c_sharp\CacheSimulator\CacheSimulator\obj\Debug\net5.0\CacheSimulator.csproj.AssemblyReference.cache
+C:\Users\offhemo\OneDrive - KLA Corporation\Desktop\docs_&_shit\c_sharp\CacheSimulator\CacheSimulator\obj\Debug\net5.0\CacheSimulator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\offhemo\OneDrive - KLA Corporation\Desktop\docs_&_shit\c_sharp\CacheSimulator\CacheSimulator\obj\Debug\net5.0\CacheSimulator.AssemblyInfoInputs.cache
+C:\Users\offhemo\OneDrive - KLA Corporation\Desktop\docs_&_shit\c_sharp\CacheSimulator\CacheSimulator\obj\Debug\net5.0\CacheSimulator.AssemblyInfo.cs
+C:\Users\offhemo\OneDrive - KLA Corporation\Desktop\docs_&_shit\c_sharp\CacheSimulator\CacheSimulator\obj\Debug\net5.0\CacheSimulator.csproj.CoreCompileInputs.cache
+C:\Users\offhemo\OneDrive - KLA Corporation\Desktop\docs_&_shit\c_sharp\CacheSimulator\CacheSimulator\obj\Debug\net5.0\CacheSimulator.dll
+C:\Users\offhemo\OneDrive - KLA Corporation\Desktop\docs_&_shit\c_sharp\CacheSimulator\CacheSimulator\obj\Debug\net5.0\ref\CacheSimulator.dll
+C:\Users\offhemo\OneDrive - KLA Corporation\Desktop\docs_&_shit\c_sharp\CacheSimulator\CacheSimulator\obj\Debug\net5.0\CacheSimulator.pdb
+C:\Users\offhemo\OneDrive - KLA Corporation\Desktop\docs_&_shit\c_sharp\CacheSimulator\CacheSimulator\obj\Debug\net5.0\CacheSimulator.genruntimeconfig.cache

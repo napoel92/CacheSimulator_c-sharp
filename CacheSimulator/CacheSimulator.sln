@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31613.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSimulator", "CacheSimulator\CacheSimulator.csproj", "{FAF48A65-84E1-4F1C-A109-29AACD842278}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSimulator.Tests", "CacheSimulator.Tests\CacheSimulator.Tests.csproj", "{AB4D0EC9-708E-494F-99EF-57C1B118A46D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FAF48A65-84E1-4F1C-A109-29AACD842278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAF48A65-84E1-4F1C-A109-29AACD842278}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAF48A65-84E1-4F1C-A109-29AACD842278}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAF48A65-84E1-4F1C-A109-29AACD842278}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB4D0EC9-708E-494F-99EF-57C1B118A46D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB4D0EC9-708E-494F-99EF-57C1B118A46D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB4D0EC9-708E-494F-99EF-57C1B118A46D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB4D0EC9-708E-494F-99EF-57C1B118A46D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B6A1249-6C71-477C-8414-8607B67B50C4}
+	EndGlobalSection
+EndGlobal
