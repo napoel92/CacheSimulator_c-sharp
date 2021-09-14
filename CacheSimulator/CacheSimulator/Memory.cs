@@ -64,6 +64,7 @@ namespace CacheSimulator
 
 
 
+
         public void increaseMissesOfCache(int cacheID)
         {
             if (1 == cacheID)
@@ -80,10 +81,119 @@ namespace CacheSimulator
             throw new ArgumentException("there are only cache-L1 and cache-L2");
         }
 
+
+
+
+
+
         internal void L1_Hit(uint address, char operation)
         {
-            std::vector<Block>::iterator modified = cacheL1.updateLRU(address);
-            modified->dirtyBit = (operation == WRITE) ? DIRTY : modified->dirtyBit;
+            var modified = cacheL1.updateLRU(address);
+            modified.isDirty = (operation == Const.WRITE) ? Const.DIRTY : modified.isDirty;
         }
-    }
-}
+
+
+
+
+
+
+
+        internal void L2_Hit(uint address, char operation)
+        {
+            var set = CacheL1.getSet(address);
+            int setIndex = CacheL1.getSetIndex(address);
+            char missInL1 = operation;
+
+
+            if (Const.WRITE == missInL1)
+            {
+                if (/*******************/ writePolicy == Const.WRITE_ALLOCATE /*************/)
+                {//----->> read_Hit in L2
+                    if (CacheL1.usedWays[setIndex] < CacheL1.waysNum)
+                    {
+                        putInFreeWay(address).isDirty = Const.DIRTY;
+                        return;
+                    }
+                    else
+                    {
+                        evictAndPut(address).isDirty = Const.DIRTY;
+                        return;
+                    }
+                }
+                else  /**************  writePolicy == NO_WRITE_ALLOCATE ******************/
+                {//----->> write_Hit in L2
+                    CacheL2.updateLRU(address).isDirty = Const.DIRTY;
+                    return;
+                }
+            }
+        }
+    
+
+
+
+        private MemoryBlock evictAndPut(uint address)
+        {
+            CacheMemory targetCache = null;
+            MemoryBlock evicted = null;
+            uint tag;
+
+            // miss in L1 and hit in L2
+            if ((CacheL1.containsBlockOf(address) == false) && (CacheL2.containsBlockOf(address)))
+            {
+                targetCache = CacheL1;
+                evicted = CacheL1.freeWayFor(address);
+                CacheL2.updateLRU(address); //  <----- read L2
+                evictFrom(CacheL1, address);
+                tag = CacheL1.getTag(address);
+            }
+            // miss in L2 thus acsses Mem
+            else
+            {
+                targetCache = CacheL2;
+                evicted = CacheL2.leastRecentlyUsed(address);
+                evictFrom(CacheL2, address);
+                tag = CacheL2.getTag(address);
+            }
+
+            if (evicted.isValid || evicted.isDirty) throw new Exception("evacuated block is VALID and NOT_DIRTY");
+            evicted.tag = tag;
+            evicted.data = address;
+            return targetCache.updateLRU(address); // <---- read target cache ( L1 or L2 )
+        }
+
+        private void evictFrom(CacheMemory cacheL1, uint address)
+        {
+            throw new NotImplementedException();
+        }
+
+        private MemoryBlock putInFreeWay(uint address)
+        {
+            CacheMemory targetCache = null;
+            MemoryBlock freeBlock = null;
+            uint tag;
+
+            if ((CacheL1.containsBlockOf(address) == false) && (CacheL2.containsBlockOf(address)))
+            {
+                targetCache = CacheL1;
+                freeBlock = CacheL1.freeWayFor(address);
+                tag = CacheL1.getTag(address);
+                CacheL2.updateLRU(address); // read-request sent to L2
+            }
+            else
+            {
+                targetCache = CacheL2;
+                freeBlock = CacheL2.freeWayFor(address);
+                tag = CacheL2.getTag(address);
+                // no-need for LRU-policy managing. read-request sent to Mem
+            }
+
+            if(freeBlock.isValid || freeBlock.isDirty)  throw new Exception("free block is INVALID and NOT_DIRTY");
+            freeBlock.isValid = true;
+            int i = targetCache.getSetIndex(address);
+            ++targetCache.usedWays[i];
+
+            freeBlock.tag = tag;
+            freeBlock.data = address;
+            return targetCache.updateLRU(address); // <---- read target cache ( L1 or L2 )
+        }
+    }}

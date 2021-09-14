@@ -7,20 +7,22 @@ namespace CacheSimulator
     {
 
         private List<List<MemoryBlock>> sets;
-        private List<int> policyLRU;
+        private List<uint> policyLRU;
+        internal List<uint> usedWays;
 
-        public uint cacheSize { get; init; }
-        public uint log2BlockSize { get; init; }
-        public uint cyclesNum { get; init; }
-        public uint waysNum { get; init; }
-        public int missNumber { get; set; } = 0;
-        public int accessNumber { get; set; } = 0;
+        internal uint cacheSize { get; init; }
+        internal uint log2BlockSize { get; init; }
+        internal uint cyclesNum { get; init; }
+        internal uint waysNum { get; init; }
+        internal int missNumber { get; set; } = 0;
+        internal int accessNumber { get; set; } = 0;
 
-        public CacheMemory(uint associativity, uint layerSize, uint blockSize, uint cyclesNum)
+        internal CacheMemory(uint associativity, uint layerSize, uint blockSize, uint cyclesNum)
         {
             var setsNumber = (int)Math.Pow(2, layerSize - blockSize - associativity);
             sets = new List<List<MemoryBlock>>(setsNumber);
-            policyLRU = new List<int>(setsNumber);
+            policyLRU = new List<uint>(setsNumber);
+            usedWays = new List<uint>(setsNumber);
 
             var waysNumber = (int)Math.Pow(2, associativity);
             for (int i = 0; i < sets.Capacity ; ++i)
@@ -35,7 +37,10 @@ namespace CacheSimulator
             this.waysNum = (uint)sets[0].Capacity;
         }
 
-        public bool containsBlockOf(uint address)
+
+
+
+        internal bool containsBlockOf(uint address)
         {
             List<MemoryBlock> set = getSet(address);
             uint tag = getTag(address);
@@ -50,7 +55,11 @@ namespace CacheSimulator
             return false;
         }
 
-        private uint getTag(uint address)
+
+
+
+
+        internal uint getTag(uint address)
         {
             int log2Ways = (int)Math.Log2(waysNum);
             int log2CacheSize = (int)Math.Log2(cacheSize);
@@ -59,21 +68,43 @@ namespace CacheSimulator
             return Program.ExtractBits(address, bitsNum, log2CacheSize - log2Ways + 1);
         }
 
-        private List<MemoryBlock> getSet(uint address)
-        {
-            int setBits = (int)Math.Log2(cacheSize) -(int)Math.Log2(waysNum) - (int)log2BlockSize;
-            int index = (int)Program.ExtractBits(address, setBits, (int)log2BlockSize + 1);
-            return sets[index];
-        }
 
-        public List<MemoryBlock> updateLRU(uint address)
+
+        internal int getSetIndex(uint address)
         {
             int setBits = (int)Math.Log2(cacheSize) - (int)Math.Log2(waysNum) - (int)log2BlockSize;
-            int i = (int)Program.ExtractBits(address, setBits, (int)log2BlockSize + 1);
-            getBlock(address);
+            return (int)Program.ExtractBits(address, setBits, (int)log2BlockSize + 1);
         }
 
-        private MemoryBlock getBlock(uint address)
+
+
+
+
+        internal List<MemoryBlock> getSet(uint address)
+        {
+            int i = getSetIndex(address);
+            return sets[i];
+        }
+
+
+
+
+
+
+
+
+        internal MemoryBlock updateLRU(uint address)
+        {
+            int i = getSetIndex(address);            
+            blockOf(address).statusLRU = ++policyLRU[i];
+            sets[i].Sort((y,x) => (x.statusLRU < y.statusLRU) ? (-1) : (1));
+            return blockOf(address);
+        }
+
+
+
+
+        internal MemoryBlock blockOf(uint address)
         {
             List<MemoryBlock> set = getSet(address);
             uint tag = getTag(address);
@@ -86,6 +117,24 @@ namespace CacheSimulator
                 }
             }
             throw new Exception("block should have been in the chache");
+        }
+
+        internal MemoryBlock freeWayFor(uint address)
+        {
+            var set = getSet(address);
+            foreach (MemoryBlock block in set)
+            {
+                if (block.isValid == false)
+                {
+                    break;
+                }
+            }
+            throw new Exception("there was supposed to be a free block in the set while inserting");
+        }
+
+        internal MemoryBlock leastRecentlyUsed(uint address)
+        {
+            throw new NotImplementedException();
         }
     }
 }

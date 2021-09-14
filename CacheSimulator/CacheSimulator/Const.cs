@@ -7,6 +7,11 @@
         public const int INITIAL_LRU_COUNTER = 0;
         public const bool VALID = true;
         public const bool INVALID = false;
+        public const char WRITE = 'w';
+        public const char READ = 'r';
+        public const bool DIRTY = true;
+        public const bool NOT_DIRTY = false;
+
 
     }
 }

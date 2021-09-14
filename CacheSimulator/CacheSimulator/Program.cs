@@ -91,7 +91,7 @@ namespace CacheSimulator
             //-----------------------------------------------------
             if (memory.cacheL2.containsBlockOf(address))
             {
-                //memory.L2_Hit(address, operation);
+                memory.L2_Hit(address, operation);
                 return;
             }
             else { memory.increaseMissesOfCache(2); /* move to search in ram-Memory */ }
