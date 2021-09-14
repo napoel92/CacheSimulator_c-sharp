@@ -16,7 +16,7 @@ namespace CacheSimulator.Tests
         public void cacheSizeTest()
         {
             //arrange
-            CacheSimulator.CacheMemory c = new CacheMemory(1, 5, 0, 4);
+            CacheMemory c = new CacheMemory(1, 5, 0, 4);
 
             //act
             var l1Size = c.cacheSize;
@@ -40,8 +40,6 @@ namespace CacheSimulator.Tests
 
             //assert
             Assert.AreEqual((int)Math.Pow(2, 1), waysNum);
-
-
         }
     }
 }

@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace CacheSimulator.Tests
 {
-    public class ExtractBitsTests
+    public class HelperFunctionsTests
     {
         [SetUp]
         public void Setup()
@@ -122,7 +123,36 @@ namespace CacheSimulator.Tests
             //assert
             res = true;
 
+        }
+
+
+        [Test]
+        public void soertListWithLambdaTest()
+        {
+            //arrange
+            var list = new List<int>() { 10,5,2,9,5,8,4,6,1,8,7,0 };
+            bool notSorted = true;
+            for(int i = 0; i < list.Count-1; ++i) 
+            {
+                if (i == list.Count - 1) { notSorted = false; break; }
+                if (list[i] <= list[i + 1]) continue;
+            }
+
+
+            //act
+            Assert.AreEqual(notSorted, true);
+            list.Sort((x, y) => (y < x) ? (-1) : (1));
+            for (int i = 0; i < list.Count ; ++i)
+            {
+                if (i == list.Count - 1) { notSorted = false; break; }
+                if (list[i] <= list[i + 1]) continue;
+            }
+
+            //assert
+            Assert.AreEqual(notSorted, false);
+
 
         }
+
     }
 }

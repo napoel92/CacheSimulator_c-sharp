@@ -99,7 +99,7 @@ namespace CacheSimulator
 
             memory.totalAccessTime += memory.ramCyclesNumber;
             //-------------------------------------------------
-            //memory.L1_and_L2_Miss(address, operation);
+            memory.L1_and_L2_Miss(address, operation);
         }
 
 

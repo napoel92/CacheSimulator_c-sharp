@@ -10,14 +10,14 @@ namespace CacheSimulator
         private List<uint> policyLRU;
         internal List<uint> usedWays;
 
-        internal uint cacheSize { get; init; }
-        internal uint log2BlockSize { get; init; }
-        internal uint cyclesNum { get; init; }
-        internal uint waysNum { get; init; }
+        public uint cacheSize { get; init; }
+        public uint log2BlockSize { get; init; }
+        public uint cyclesNum { get; init; }
+        public uint waysNum { get; init; }
         internal int missNumber { get; set; } = 0;
         internal int accessNumber { get; set; } = 0;
 
-        internal CacheMemory(uint associativity, uint layerSize, uint blockSize, uint cyclesNum)
+        public CacheMemory(uint associativity, uint layerSize, uint blockSize, uint cyclesNum)
         {
             var setsNumber = (int)Math.Pow(2, layerSize - blockSize - associativity);
             sets = new List<List<MemoryBlock>>(setsNumber);
@@ -97,7 +97,7 @@ namespace CacheSimulator
         {
             int i = getSetIndex(address);            
             blockOf(address).statusLRU = ++policyLRU[i];
-            sets[i].Sort((y,x) => (x.statusLRU < y.statusLRU) ? (-1) : (1));
+            sets[i].Sort((x,y) => (y.statusLRU < x.statusLRU) ? (-1) : (1));
             return blockOf(address);
         }
 
@@ -134,7 +134,12 @@ namespace CacheSimulator
 
         internal MemoryBlock leastRecentlyUsed(uint address)
         {
-            throw new NotImplementedException();
+            var lruBlock = getSet(address)[Const.LEAST_RECENTLY_USED];
+            if( lruBlock.isValid==Const.INVALID )
+            {
+                throw new Exception("LRU-block should always be VALID");
+            }
+            return lruBlock;
         }
     }
 }

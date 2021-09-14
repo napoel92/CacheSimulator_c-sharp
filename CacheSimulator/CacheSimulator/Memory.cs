@@ -131,6 +131,7 @@ namespace CacheSimulator
 
 
 
+
         private MemoryBlock evictAndPut(uint address)
         {
             CacheMemory targetCache = null;
@@ -161,10 +162,62 @@ namespace CacheSimulator
             return targetCache.updateLRU(address); // <---- read target cache ( L1 or L2 )
         }
 
-        private void evictFrom(CacheMemory cacheL1, uint address)
+
+
+
+
+
+
+
+        internal void L1_and_L2_Miss(uint address, char operation)
         {
-            throw new NotImplementedException();
+            if ((writePolicy == Const.NO_WRITE_ALLOCATE) && (operation == Const.WRITE))
+            {
+                /*      we "only" need to write the data into the
+                        block that is allready in the main memory   */
+                return;
+            }
+
+            if(Const.WRITE_ALLOCATE!=writePolicy &&  Const.READ!=operation)
+            {
+                throw new Exception("Oeration dont match to the Writing-Policy");
+            }
+
+            handle_L2_Miss(address);
+            handle_L1_Miss(address, operation);
         }
+
+
+
+
+
+
+
+
+
+        private void evictFrom(CacheMemory cacheLi, uint address)
+        {
+            var lruBlock = cacheLi.getSet(address)[0];
+            if (lruBlock.isValid == Const.INVALID)
+            {
+                throw new Exception("LRU-block should always be VALID");
+            }
+            uint evictedAddress = cacheLi.getSet(address)[Const.LEAST_RECENTLY_USED].data;
+            var evictedBlock = cacheLi.getSet(address)[Const.LEAST_RECENTLY_USED];
+
+            if (evictedBlock.isDirty && cacheLi == cacheL1)
+            {
+                cacheL2.updateLRU(evictedAddress).isDirty = Const.DIRTY; // write L2
+            }
+            evictedBlock.isDirty = Const.NOT_DIRTY;
+        }
+
+
+
+
+
+
+
 
         private MemoryBlock putInFreeWay(uint address)
         {
@@ -196,4 +249,5 @@ namespace CacheSimulator
             freeBlock.data = address;
             return targetCache.updateLRU(address); // <---- read target cache ( L1 or L2 )
         }
-    }}
+    }
+}

@@ -11,6 +11,7 @@
         public const char READ = 'r';
         public const bool DIRTY = true;
         public const bool NOT_DIRTY = false;
+        public const int LEAST_RECENTLY_USED = 0;
 
 
     }
