@@ -1,30 +1,89 @@
-﻿namespace CacheSimulator
+﻿using System;
+
+namespace CacheSimulator
 {
+
     public class Memory
     {
-        private ushort l1Assoc;
-        private ushort l1Size;
-        private ushort l1Cyc;
-        private ushort l2Assoc;
-        private ushort l2Size;
-        private ushort l2Cyc;
-        private ushort wrAlloc;
-        private ushort bSize;
-        private ushort memCyc;
+        public readonly CacheMemory cacheL1;
+        public readonly CacheMemory cacheL2;
+        public CacheMemory CacheL1 { get; init; }
+        public CacheMemory CacheL2 { get; init; }
 
-        public Memory(ushort l1Assoc, ushort l1Size, ushort l1Cyc, ushort l2Assoc, ushort l2Size, ushort l2Cyc, ushort wrAlloc, ushort bSize, ushort memCyc)
+        public bool writePolicy { get; init; }
+        public uint ramCyclesNumber { get; init; }
+        public uint totalAccessTime { get; set; } = 0;
+        public uint accessNumber { get; set; } = 0;
+
+
+
+        public Memory(ushort l1Assoc, ushort l1Size, ushort l1Cyc, ushort l2Assoc, ushort l2Size, ushort l2Cyc, bool wrAlloc, ushort bSize, ushort memCyc)
         {
-            this.l1Assoc = l1Assoc;
-            this.l1Size = l1Size;
-            this.l1Cyc = l1Cyc;
-            this.l2Assoc = l2Assoc;
-            this.l2Size = l2Size;
-            this.l2Cyc = l2Cyc;
-            this.wrAlloc = wrAlloc;
-            this.bSize = bSize;
-            this.memCyc = memCyc;
+            cacheL1 = new CacheMemory(l1Assoc, l1Size, bSize, l1Cyc);
+            cacheL2 = new CacheMemory(l2Assoc, l2Size, bSize, l2Cyc);
+            writePolicy = wrAlloc;
+            ramCyclesNumber = memCyc;
+
         }
 
-        public int acessNum { get; set; }
+
+        
+
+
+
+        public uint accessTimeOfCache(int cacheID)
+        {
+            if (1 == cacheID)
+            {
+                return cacheL1.cyclesNum;
+
+            }
+            else if (2 == cacheID)
+            {
+                return cacheL2.cyclesNum;
+            }
+            throw new ArgumentException("there are only cache-L1 and cache-L2");
+        }
+
+
+        public void increaseAccessToCache(int cacheID)
+        {
+            if (1 == cacheID)
+            {
+                ++cacheL1.accessNumber;
+                return;
+
+            }
+            else if (2 == cacheID)
+            {
+                ++cacheL2.accessNumber;
+                return;
+            }
+            throw new ArgumentException("there are only cache-L1 and cache-L2");
+        }
+
+
+
+        public void increaseMissesOfCache(int cacheID)
+        {
+            if (1 == cacheID)
+            {
+                ++cacheL1.missNumber;
+                return;
+
+            }
+            else if (2 == cacheID)
+            {
+                ++cacheL2.missNumber;
+                return;
+            }
+            throw new ArgumentException("there are only cache-L1 and cache-L2");
+        }
+
+        internal void L1_Hit(uint address, char operation)
+        {
+            std::vector<Block>::iterator modified = cacheL1.updateLRU(address);
+            modified->dirtyBit = (operation == WRITE) ? DIRTY : modified->dirtyBit;
+        }
     }
 }
