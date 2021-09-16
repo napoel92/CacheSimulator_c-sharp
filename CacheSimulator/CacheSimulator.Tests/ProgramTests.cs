@@ -17,10 +17,28 @@ namespace CacheSimulator.Tests
         [Test]
         public void ProgramTests1()
         {
-            //arrange
-            var prog = new Program();
-            //string[] files = Directory.GetFiles("path");
-            string[] args = prepareArgs("file");
+            //arrange - reach the tests directory
+            string cwd = Directory.GetCurrentDirectory();
+            for (int i = 0; i<3; ++i)
+            {
+                cwd = Path.GetDirectoryName(cwd);
+            }
+            string[] toCombine = { cwd, "tests" };
+            string pdp = Path.Combine(toCombine);
+            string[] files = Directory.GetFiles(pdp);
+
+
+
+
+
+
+
+
+
+
+
+            //var prog = new Program();
+            //string[] args = prepareArgs("file");
 
 
             //act
@@ -30,7 +48,7 @@ namespace CacheSimulator.Tests
 
 
 
-
+            return;
 
         }
         public string[] prepareArgs(string filePath)
