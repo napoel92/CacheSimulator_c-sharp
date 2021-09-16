@@ -17,6 +17,10 @@ namespace CacheSimulator
         internal int missNumber { get; set; } = 0;
         internal int accessNumber { get; set; } = 0;
 
+
+
+
+
         public CacheMemory(uint associativity, uint layerSize, uint blockSize, uint cyclesNum)
         {
             var setsNumber = (int)Math.Pow(2, layerSize - blockSize - associativity);
@@ -36,6 +40,8 @@ namespace CacheSimulator
             this.cyclesNum = cyclesNum;
             this.waysNum = (uint)sets[0].Capacity;
         }
+
+
 
 
 
@@ -70,6 +76,7 @@ namespace CacheSimulator
 
 
 
+
         internal int getSetIndex(uint address)
         {
             int setBits = (int)Math.Log2(cacheSize) - (int)Math.Log2(waysNum) - (int)log2BlockSize;
@@ -80,13 +87,12 @@ namespace CacheSimulator
 
 
 
+
         internal List<MemoryBlock> getSet(uint address)
         {
             int i = getSetIndex(address);
             return sets[i];
         }
-
-
 
 
 
@@ -104,10 +110,14 @@ namespace CacheSimulator
 
 
 
-        internal MemoryBlock blockOf(uint address)
+
+
+
+        internal MemoryBlock  blockOf(uint address)
         {
             List<MemoryBlock> set = getSet(address);
             uint tag = getTag(address);
+
 
             foreach (MemoryBlock block in set)
             {
@@ -118,6 +128,12 @@ namespace CacheSimulator
             }
             throw new Exception("block should have been in the chache");
         }
+
+
+
+
+
+
 
         internal MemoryBlock freeWayFor(uint address)
         {
@@ -131,6 +147,11 @@ namespace CacheSimulator
             }
             throw new Exception("there was supposed to be a free block in the set while inserting");
         }
+
+
+
+
+
 
         internal MemoryBlock leastRecentlyUsed(uint address)
         {

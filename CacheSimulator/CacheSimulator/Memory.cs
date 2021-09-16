@@ -192,6 +192,62 @@ namespace CacheSimulator
 
 
 
+        private void handle_L1_Miss(uint address, char operation)
+        {
+            var setIndex = cacheL1.getSetIndex(address);
+            
+            if (cacheL1.usedWays[setIndex] < cacheL1.waysNum)
+            {
+                putInFreeWay(address);
+            }
+            else
+            {
+                evictAndPut(address);
+            }
+        }
+
+
+
+
+
+
+        private void handle_L2_Miss(uint address)
+        {
+            var set = CacheL2.getSet(address);
+            int setIndex = CacheL2.getSetIndex(address);
+            var usedWays = cacheL2.usedWays[setIndex];
+
+            if (cacheL2.usedWays[setIndex] < CacheL2.waysNum)
+            {
+                putInFreeWay(address);
+            }
+            else
+            {
+                L2_snoops_L1(address);
+                evictAndPut(address);
+            }
+        }
+
+
+
+
+
+
+        private void L2_snoops_L1(uint address)
+        {
+            uint evictedAddress_L2 = cacheL2.getSet(address)[Const.LEAST_RECENTLY_USED].data;
+            if (cacheL1.containsBlockOf(evictedAddress_L2) == false) return;
+
+            int setIndex = cacheL1.getSetIndex(address);
+            CacheL1.blockOf(evictedAddress_L2).reset();
+            --cacheL1.usedWays[setIndex];
+            // if the data is dirty in L1  ===>>   "we assign" dirtyBit=DIRTY also in L2
+            //                                        (but its meaningless in the code)
+        }
+
+
+
+
 
 
 

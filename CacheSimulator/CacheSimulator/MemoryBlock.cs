@@ -12,13 +12,23 @@
         public uint statusLRU { get; set; }
 
 
-        MemoryBlock(bool isValid=false, bool isDirty=false, uint tag=0, uint data=0, uint statusLRU=0)
+        MemoryBlock()
         {
-            this.isValid = isValid;
-            this.isDirty =  isDirty;
-            this.tag =  tag;
-            this.data =  data;
-            this.statusLRU =  statusLRU;
+            isValid = Const.INVALID;
+            isDirty = Const.NOT_DIRTY;
+            tag =  0;
+            data =  0;
+            statusLRU = 0;
+        }
+
+
+        internal void reset()
+        {
+            isValid = Const.INVALID;
+            isDirty = Const.NOT_DIRTY;
+            tag = 0;
+            data = 0;
+            statusLRU = 0;
         }
     }
 }
