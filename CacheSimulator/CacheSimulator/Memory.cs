@@ -9,7 +9,6 @@ namespace CacheSimulator
         public readonly CacheMemory cacheL2;
         public CacheMemory CacheL1 { get; init; }
         public CacheMemory CacheL2 { get; init; }
-
         public bool writePolicy { get; init; }
         public uint ramCyclesNumber { get; init; }
         public uint totalAccessTime { get; set; } = 0;

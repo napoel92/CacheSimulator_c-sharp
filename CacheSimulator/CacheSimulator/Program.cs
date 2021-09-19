@@ -6,7 +6,7 @@ namespace CacheSimulator
 {
     public class Program
     {
-        static int Main(string[] args)
+        static public int Main(string[] args)
         {
  
             try

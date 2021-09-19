@@ -12,6 +12,8 @@
         public uint statusLRU { get; set; }
 
 
+
+
         MemoryBlock()
         {
             isValid = Const.INVALID;
@@ -20,6 +22,8 @@
             data =  0;
             statusLRU = 0;
         }
+
+
 
 
         internal void reset()

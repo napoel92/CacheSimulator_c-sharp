@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,50 +8,58 @@ namespace CacheSimulator.Tests
 {
     public class ProgramTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
-
-
         [Test]
-        public void ProgramTests1()
+        public void loopAllTests()
         {
-            //arrange - reach the tests directory
-            string cwd = Directory.GetCurrentDirectory();
-            for (int i = 0; i<3; ++i)
-            {
-                cwd = Path.GetDirectoryName(cwd);
-            }
-            string[] toCombine = { cwd, "tests" };
-            string pdp = Path.Combine(toCombine);
-            string[] files = Directory.GetFiles(pdp);
-
-
-
-
-
-
-
-
-
-
-
-            //var prog = new Program();
-            //string[] args = prepareArgs("file");
-
-
-            //act
-
-            //assert
-
-
-
-
-            return;
-
+            var outputs = createOutputs();
+            var expectedOutputs = getExpectedFiles();
         }
+
+
+
+
+        public List<StreamWriter> createOutputs()
+        {
+            var commandFileNames = getCommandFiles();
+            var outputs = new List<StreamWriter>();
+            string filePrefix;
+            string[] arguments;
+
+            foreach(string fileName in commandFileNames)
+            {             
+                filePrefix = fileName.Split('.')[0];
+                using (var writer = new StreamWriter(filePrefix + ".out"))
+                {
+                    arguments = prepareArgs(fileName);
+                    Program.Main(arguments);
+                    outputs.Add(writer);
+                }
+                
+            }
+            Console.SetOut(new StreamWriter(Console.OpenStandardOutput()));
+            return outputs;
+        }
+
+
+
+        public string[] getCommandFiles()
+        {
+            string[] subDirectory = { Directory.GetCurrentDirectory(), "tests" };
+            string testsDirectory = Path.Combine(subDirectory);
+            return Directory.GetFiles(testsDirectory, "*.command");
+        }
+
+
+        public string[] getExpectedFiles()
+        {
+            string[] subDirectory = { Directory.GetCurrentDirectory(), "tests" };
+            string testsDirectory = Path.Combine(subDirectory);
+            return Directory.GetFiles(testsDirectory, "*.OURS");
+        }
+
+
+
+
         public string[] prepareArgs(string filePath)
         {
             List<string> arguments = null;

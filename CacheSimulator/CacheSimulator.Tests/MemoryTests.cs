@@ -5,13 +5,7 @@ namespace CacheSimulator.Tests
 {
     public class MemoryTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
-
-
+        
         [Test]
         public void cacheSizeTest()
         {
