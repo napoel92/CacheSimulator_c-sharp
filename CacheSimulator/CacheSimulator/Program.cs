@@ -31,13 +31,11 @@ namespace CacheSimulator
 
         private static void DisplayResults(Memory memory)
         {
-            //double L1MissRate = (double)memory.L1.missNum / memory.L1.acssesNum;
-            //double L2MissRate = (double)memory.L2.missNum / memory.L2.acssesNum;
-            //double avgAccTime = (double)memory.totalTime / memory.acessNum;
+            double L1MissRate = (double)memory.CacheL1.missNumber / memory.cacheL1.accessNumber;
+            double L2MissRate = (double)memory.CacheL2.missNumber / memory.cacheL2.accessNumber;
+            double avgAccTime = (double)memory.totalAccessTime / memory.accessNumber;
 
-            //printf("L1miss=%.03f ", L1MissRate);
-            //printf("L2miss=%.03f ", L2MissRate);
-            //printf("AccTimeAvg=%.03f\n", avgAccTime);
+            Console.WriteLine($"L1miss={L1MissRate:N3} L2miss={L2MissRate:N3} AccTimeAvg={avgAccTime:N3}");
         }
 
         private static void parseTheInput(string[] args, Memory memory)

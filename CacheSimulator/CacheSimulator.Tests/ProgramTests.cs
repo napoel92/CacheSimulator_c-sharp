@@ -13,31 +13,58 @@ namespace CacheSimulator.Tests
         {
             var outputs = createOutputs();
             var expectedOutputs = getExpectedFiles();
+            //Assert.Equals(outputs.Length, expectedOutputs.Length);
+
+            for(int i=0; i< outputs.Length; ++i)
+            {
+                if(FileEquals(outputs[i], expectedOutputs[i]))  continue;
+                Console.WriteLine($"didn't pass test number {i}");
+            }
         }
 
 
 
 
-        public List<StreamWriter> createOutputs()
+        static bool FileEquals(string path1, string path2)
+        {
+            byte[] file1 = File.ReadAllBytes(path1);
+            byte[] file2 = File.ReadAllBytes(path2);
+            if (file1.Length == file2.Length)
+            {
+                for (int i = 0; i < file1.Length; i++)
+                {
+                    if (file1[i] != file2[i])
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+
+
+        public string[] createOutputs()
         {
             var commandFileNames = getCommandFiles();
-            var outputs = new List<StreamWriter>();
             string filePrefix;
             string[] arguments;
+            List<string> outputs = new();
 
             foreach(string fileName in commandFileNames)
             {             
-                filePrefix = fileName.Split('.')[0];
+                filePrefix = fileName.Split(".command")[0];
                 using (var writer = new StreamWriter(filePrefix + ".out"))
                 {
                     arguments = prepareArgs(fileName);
                     Program.Main(arguments);
-                    outputs.Add(writer);
+                    outputs.Add(filePrefix + ".out");
                 }
                 
             }
             Console.SetOut(new StreamWriter(Console.OpenStandardOutput()));
-            return outputs;
+            return outputs.ToArray();
         }
 
 
@@ -75,8 +102,8 @@ namespace CacheSimulator.Tests
 
             if(arguments!=null)
             {
-                Assert.AreEqual(arguments[0].ToCharArray()[0], ".");
-                Assert.AreEqual(arguments[0].ToCharArray()[1], "/");
+                Assert.AreEqual(arguments[0].ToCharArray()[0], '.');
+                Assert.AreEqual(arguments[0].ToCharArray()[1], '/');
                 arguments.Remove(arguments[0]);
                 return arguments.ToArray();
             }
