@@ -10,7 +10,7 @@ namespace CacheSimulator
         private List<uint> policyLRU;
         internal List<uint> usedWays;
 
-        public uint cacheSize { get; init; }
+        public uint setsNumber { get; init; }
         public uint log2BlockSize { get; init; }
         public uint cyclesNum { get; init; }
         public uint waysNum { get; init; }
@@ -35,7 +35,7 @@ namespace CacheSimulator
                 policyLRU.Add(Const.INITIAL_LRU_COUNTER);
             }
 
-            cacheSize = (uint)sets.Capacity;
+            this.setsNumber = (uint)sets.Capacity;
             this.log2BlockSize = blockSize;
             this.cyclesNum = cyclesNum;
             this.waysNum = (uint)sets[0].Capacity;
@@ -68,7 +68,7 @@ namespace CacheSimulator
         internal uint getTag(uint address)
         {
             int log2Ways = (int)Math.Log2(waysNum);
-            int log2CacheSize = (int)Math.Log2(cacheSize);
+            int log2CacheSize = (int)Math.Log2(setsNumber)+(int)log2BlockSize+log2Ways;
             int bitsNum = 32 - (log2CacheSize - log2Ways + 1);
 
             return Program.ExtractBits(address, bitsNum, log2CacheSize - log2Ways + 1);
@@ -79,7 +79,7 @@ namespace CacheSimulator
 
         internal int getSetIndex(uint address)
         {
-            int setBits = (int)Math.Log2(cacheSize) - (int)Math.Log2(waysNum) - (int)log2BlockSize;
+            int setBits = (int)Math.Log2(setsNumber);
             return (int)Program.ExtractBits(address, setBits, (int)log2BlockSize + 1);
         }
 

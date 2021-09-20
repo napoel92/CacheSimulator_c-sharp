@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CacheSimulator
 {
@@ -212,7 +213,7 @@ namespace CacheSimulator
 
         private void handle_L2_Miss(uint address)
         {
-            var set = CacheL2.getSet(address);
+            List<MemoryBlock>? set = CacheL2.getSet(address);
             int setIndex = CacheL2.getSetIndex(address);
             var usedWays = cacheL2.usedWays[setIndex];
 

@@ -13,7 +13,7 @@ namespace CacheSimulator.Tests
             CacheMemory c = new CacheMemory(1, 5, 0, 4);
 
             //act
-            var l1Size = c.cacheSize;
+            var l1Size = c.setsNumber;
 
             //assert
             Assert.AreEqual((int)Math.Pow(2, 5 - 0 - 1), l1Size);

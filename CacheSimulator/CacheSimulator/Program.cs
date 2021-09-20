@@ -29,6 +29,10 @@ namespace CacheSimulator
 
 
 
+
+
+
+
         private static void DisplayResults(Memory memory)
         {
             double L1MissRate = (double)memory.CacheL1.missNumber / memory.cacheL1.accessNumber;
@@ -37,6 +41,12 @@ namespace CacheSimulator
 
             Console.WriteLine($"L1miss={L1MissRate:N3} L2miss={L2MissRate:N3} AccTimeAvg={avgAccTime:N3}");
         }
+
+
+
+
+
+
 
         private static void parseTheInput(string[] args, Memory memory)
         {
@@ -65,6 +75,9 @@ namespace CacheSimulator
 
             }
         }
+
+
+
 
 
 
@@ -99,6 +112,9 @@ namespace CacheSimulator
             //-------------------------------------------------
             memory.L1_and_L2_Miss(address, operation);
         }
+
+
+
 
 
 
