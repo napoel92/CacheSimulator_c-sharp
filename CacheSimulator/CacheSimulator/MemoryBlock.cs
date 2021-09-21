@@ -14,7 +14,7 @@
 
 
 
-        MemoryBlock()
+        public MemoryBlock()
         {
             isValid = Const.INVALID;
             isDirty = Const.NOT_DIRTY;

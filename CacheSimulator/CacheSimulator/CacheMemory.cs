@@ -32,6 +32,7 @@ namespace CacheSimulator
             for (int i = 0; i < sets.Capacity ; ++i)
             {
                 sets.Add(new List<MemoryBlock>(waysNumber));
+                usedWays.Add(0);
                 policyLRU.Add(Const.INITIAL_LRU_COUNTER);
             }
 
@@ -138,13 +139,17 @@ namespace CacheSimulator
         internal MemoryBlock freeWayFor(uint address)
         {
             var set = getSet(address);
+            if (set.Count < set.Capacity) set.Add(new MemoryBlock());
+
             foreach (MemoryBlock block in set)
             {
                 if (block.isValid == false)
                 {
-                    break;
+                    return block;
                 }
             }
+
+
             throw new Exception("there was supposed to be a free block in the set while inserting");
         }
 

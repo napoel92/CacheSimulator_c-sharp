@@ -6,10 +6,15 @@ namespace CacheSimulator
 
     public class Memory
     {
-        public readonly CacheMemory cacheL1;
-        public readonly CacheMemory cacheL2;
+        //public CacheMemory CacheL1;
+        //public CacheMemory CacheL2;
+
+
         public CacheMemory CacheL1 { get; init; }
         public CacheMemory CacheL2 { get; init; }
+
+
+
         public bool writePolicy { get; init; }
         public uint ramCyclesNumber { get; init; }
         public uint totalAccessTime { get; set; } = 0;
@@ -19,8 +24,8 @@ namespace CacheSimulator
 
         public Memory(ushort l1Assoc, ushort l1Size, ushort l1Cyc, ushort l2Assoc, ushort l2Size, ushort l2Cyc, bool wrAlloc, ushort bSize, ushort memCyc)
         {
-            cacheL1 = new CacheMemory(l1Assoc, l1Size, bSize, l1Cyc);
-            cacheL2 = new CacheMemory(l2Assoc, l2Size, bSize, l2Cyc);
+            CacheL1 = new CacheMemory(l1Assoc, l1Size, bSize, l1Cyc);
+            CacheL2 = new CacheMemory(l2Assoc, l2Size, bSize, l2Cyc);
             writePolicy = wrAlloc;
             ramCyclesNumber = memCyc;
 
@@ -35,12 +40,12 @@ namespace CacheSimulator
         {
             if (1 == cacheID)
             {
-                return cacheL1.cyclesNum;
+                return CacheL1.cyclesNum;
 
             }
             else if (2 == cacheID)
             {
-                return cacheL2.cyclesNum;
+                return CacheL2.cyclesNum;
             }
             throw new ArgumentException("there are only cache-L1 and cache-L2");
         }
@@ -50,13 +55,13 @@ namespace CacheSimulator
         {
             if (1 == cacheID)
             {
-                ++cacheL1.accessNumber;
+                ++CacheL1.accessNumber;
                 return;
 
             }
             else if (2 == cacheID)
             {
-                ++cacheL2.accessNumber;
+                ++CacheL2.accessNumber;
                 return;
             }
             throw new ArgumentException("there are only cache-L1 and cache-L2");
@@ -69,13 +74,13 @@ namespace CacheSimulator
         {
             if (1 == cacheID)
             {
-                ++cacheL1.missNumber;
+                ++CacheL1.missNumber;
                 return;
 
             }
             else if (2 == cacheID)
             {
-                ++cacheL2.missNumber;
+                ++CacheL2.missNumber;
                 return;
             }
             throw new ArgumentException("there are only cache-L1 and cache-L2");
@@ -88,7 +93,7 @@ namespace CacheSimulator
 
         internal void L1_Hit(uint address, char operation)
         {
-            var modified = cacheL1.updateLRU(address);
+            var modified = CacheL1.updateLRU(address);
             modified.isDirty = (operation == Const.WRITE) ? Const.DIRTY : modified.isDirty;
         }
 
@@ -194,9 +199,9 @@ namespace CacheSimulator
 
         private void handle_L1_Miss(uint address, char operation)
         {
-            var setIndex = cacheL1.getSetIndex(address);
+            var setIndex = CacheL1.getSetIndex(address);
             
-            if (cacheL1.usedWays[setIndex] < cacheL1.waysNum)
+            if (CacheL1.usedWays[setIndex] < CacheL1.waysNum)
             {
                 putInFreeWay(address);
             }
@@ -215,9 +220,9 @@ namespace CacheSimulator
         {
             List<MemoryBlock>? set = CacheL2.getSet(address);
             int setIndex = CacheL2.getSetIndex(address);
-            var usedWays = cacheL2.usedWays[setIndex];
+            var usedWays = CacheL2.usedWays[setIndex];
 
-            if (cacheL2.usedWays[setIndex] < CacheL2.waysNum)
+            if (CacheL2.usedWays[setIndex] < CacheL2.waysNum)
             {
                 putInFreeWay(address);
             }
@@ -235,12 +240,12 @@ namespace CacheSimulator
 
         private void L2_snoops_L1(uint address)
         {
-            uint evictedAddress_L2 = cacheL2.getSet(address)[Const.LEAST_RECENTLY_USED].data;
-            if (cacheL1.containsBlockOf(evictedAddress_L2) == false) return;
+            uint evictedAddress_L2 = CacheL2.getSet(address)[Const.LEAST_RECENTLY_USED].data;
+            if (CacheL1.containsBlockOf(evictedAddress_L2) == false) return;
 
-            int setIndex = cacheL1.getSetIndex(address);
+            int setIndex = CacheL1.getSetIndex(address);
             CacheL1.blockOf(evictedAddress_L2).reset();
-            --cacheL1.usedWays[setIndex];
+            --CacheL1.usedWays[setIndex];
             // if the data is dirty in L1  ===>>   "we assign" dirtyBit=DIRTY also in L2
             //                                        (but its meaningless in the code)
         }
@@ -261,9 +266,9 @@ namespace CacheSimulator
             uint evictedAddress = cacheLi.getSet(address)[Const.LEAST_RECENTLY_USED].data;
             var evictedBlock = cacheLi.getSet(address)[Const.LEAST_RECENTLY_USED];
 
-            if (evictedBlock.isDirty && cacheLi == cacheL1)
+            if (evictedBlock.isDirty && cacheLi == CacheL1)
             {
-                cacheL2.updateLRU(evictedAddress).isDirty = Const.DIRTY; // write L2
+                CacheL2.updateLRU(evictedAddress).isDirty = Const.DIRTY; // write L2
             }
             evictedBlock.isDirty = Const.NOT_DIRTY;
         }

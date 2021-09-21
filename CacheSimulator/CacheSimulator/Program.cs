@@ -35,8 +35,8 @@ namespace CacheSimulator
 
         private static void DisplayResults(Memory memory)
         {
-            double L1MissRate = (double)memory.CacheL1.missNumber / memory.cacheL1.accessNumber;
-            double L2MissRate = (double)memory.CacheL2.missNumber / memory.cacheL2.accessNumber;
+            double L1MissRate = (double)memory.CacheL1.missNumber / memory.CacheL1.accessNumber;
+            double L2MissRate = (double)memory.CacheL2.missNumber / memory.CacheL2.accessNumber;
             double avgAccTime = (double)memory.totalAccessTime / memory.accessNumber;
 
             Console.WriteLine($"L1miss={L1MissRate:N3} L2miss={L2MissRate:N3} AccTimeAvg={avgAccTime:N3}");
@@ -89,7 +89,7 @@ namespace CacheSimulator
             memory.increaseAccessToCache(1);
             memory.totalAccessTime += memory.accessTimeOfCache(1);
             //----------------------------------------------------
-            if (memory.cacheL1.containsBlockOf(address))
+            if (memory.CacheL1.containsBlockOf(address))
             {
                 memory.L1_Hit(address, operation);
                 return;
@@ -100,7 +100,7 @@ namespace CacheSimulator
             memory.increaseAccessToCache(2);
             memory.totalAccessTime += memory.accessTimeOfCache(2);
             //-----------------------------------------------------
-            if (memory.cacheL2.containsBlockOf(address))
+            if (memory.CacheL2.containsBlockOf(address))
             {
                 memory.L2_Hit(address, operation);
                 return;
