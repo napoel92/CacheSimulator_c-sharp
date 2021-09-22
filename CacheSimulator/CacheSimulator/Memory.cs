@@ -110,26 +110,28 @@ namespace CacheSimulator
             char missInL1 = operation;
 
 
-            if (Const.WRITE == missInL1)
+            if (/**********************************/ Const.WRITE == missInL1 /***********************************/)
             {
-                if (/*******************/ writePolicy == Const.WRITE_ALLOCATE /*************/)
-                {//----->> read_Hit in L2
+                if ( writePolicy == Const.WRITE_ALLOCATE)        //----->> read_Hit in L2
+                {                                                   
                     if (CacheL1.usedWays[setIndex] < CacheL1.waysNum)
-                    {
-                        putInFreeWay(address).isDirty = Const.DIRTY;
-                        return;
-                    }
-                    else
-                    {
-                        evictAndPut(address).isDirty = Const.DIRTY;
-                        return;
-                    }
+                            putInFreeWay(address).isDirty = Const.DIRTY;
+                    else    evictAndPut(address).isDirty = Const.DIRTY;
+                    return;
                 }
-                else  /**************  writePolicy == NO_WRITE_ALLOCATE ******************/
-                {//----->> write_Hit in L2
+                else /*  writePolicy == NO_WRITE_ALLOCATE */    //----->> write_Hit in L2
+                {                                               
                     CacheL2.updateLRU(address).isDirty = Const.DIRTY;
                     return;
                 }
+            }
+
+            else    /******************************** Const.WRITE == missInL1 ************************************/
+            {
+                if(CacheL1.usedWays[setIndex] < CacheL1.waysNum)
+                       putInFreeWay(address);
+                else   evictAndPut(address);
+                return;
             }
         }
     

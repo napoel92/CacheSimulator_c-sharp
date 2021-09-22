@@ -11,9 +11,11 @@ namespace CacheSimulator
  
             try
             {
-                var varsAreVerified = assignVariables(args, out bool WrAlloc, out ushort MemCyc, out ushort BSize,
-                                                         out ushort L1Size, out ushort L1Cyc, out ushort L1Assoc,
-                                                         out ushort L2Size, out ushort L2Cyc, out ushort L2Assoc);
+                assignVariables(args, out bool WrAlloc, out ushort MemCyc, out ushort BSize,
+                               out ushort L1Size, out ushort L1Cyc, out ushort L1Assoc,
+                               out ushort L2Size, out ushort L2Cyc, out ushort L2Assoc);
+
+
                 var memory = new Memory(L1Assoc, L1Size, L1Cyc, L2Assoc, L2Size, L2Cyc, WrAlloc, BSize, MemCyc);
                 parseTheInput(args, memory);
                 DisplayResults(memory);
