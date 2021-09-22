@@ -13,15 +13,17 @@ namespace CacheSimulator.Tests
         {
             var outputs = createOutputs();
             var expectedOutputs = getExpectedFiles();
-            //Assert.Equals(outputs.Length, expectedOutputs.Length);
+            List<string> fails = new();
 
-            string fail;
+            string good;
             for(int i=0; i< outputs.Length; ++i)
             {
-                if(FileEquals(outputs[i], expectedOutputs[i]))  continue;
-                fail = $"test_num_{i} pass";
-                Assert.AreEqual(fail, $"test_num_{i} fail");
+                fails.Add($"test {i} pass");
+                if (FileEquals(outputs[i], expectedOutputs[i]))  continue;
+                fails...
             }
+            Assert.AreEqual("", fails);
+            
         }
 
 
@@ -54,18 +56,26 @@ namespace CacheSimulator.Tests
             string[] arguments;
             List<string> outputs = new();
 
-            foreach(string fileName in commandFileNames)
+            removeOldFiles();
+            foreach (string fileName in commandFileNames)
             {             
                 filePrefix = fileName.Split(".command")[0];
                 using (var writer = new StreamWriter(filePrefix + ".out"))
                 {
+                    // Redirect standard output from the console to the output file.
+                    Console.SetOut(writer);
+
                     arguments = prepareArgs(fileName);
                     Program.Main(arguments);
                     outputs.Add(filePrefix + ".out");
                 }
                 
             }
-            Console.SetOut(new StreamWriter(Console.OpenStandardOutput()));
+            // Recover the standard output stream so that a
+            // completion message can be displayed.
+            var standardOutput = new StreamWriter(Console.OpenStandardOutput());
+            standardOutput.AutoFlush = true;
+            Console.SetOut(standardOutput);
             return outputs.ToArray();
         }
 
@@ -84,6 +94,18 @@ namespace CacheSimulator.Tests
             string[] subDirectory = { Directory.GetCurrentDirectory(), "tests" };
             string testsDirectory = Path.Combine(subDirectory);
             return Directory.GetFiles(testsDirectory, "*.OURS");
+        }
+
+        public void removeOldFiles()
+        {
+            string[] subDirectory = { Directory.GetCurrentDirectory(), "tests" };
+            string testsDirectory = Path.Combine(subDirectory);
+            var folder =  Directory.GetFiles(testsDirectory, "*.out");
+            foreach (string file in folder) File.Delete(file);
+
+            var newFolder = Directory.GetFiles(testsDirectory, "*.out");
+            if (newFolder.Length != 0) throw new Exception("out files arent deleted");
+
         }
 
 
