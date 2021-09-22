@@ -161,7 +161,7 @@ namespace CacheSimulator
                 tag = CacheL2.getTag(address);
             }
 
-            if (evicted.isValid || evicted.isDirty) throw new Exception("evacuated block is VALID and NOT_DIRTY");
+            if ( !evicted.isValid || evicted.isDirty) throw new Exception("evacuated block is VALID and NOT_DIRTY");
             evicted.tag = tag;
             evicted.data = address;
             return targetCache.updateLRU(address); // <---- read target cache ( L1 or L2 )

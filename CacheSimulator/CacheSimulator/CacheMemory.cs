@@ -104,7 +104,7 @@ namespace CacheSimulator
         {
             int i = getSetIndex(address);            
             blockOf(address).statusLRU = ++policyLRU[i];
-            sets[i].Sort((x,y) => (y.statusLRU < x.statusLRU) ? (-1) : (1));
+            sets[i].Sort((x,y) => (x.statusLRU  < y.statusLRU) ? (-1) : (1));
             return blockOf(address);
         }
 
