@@ -147,7 +147,7 @@ namespace CacheSimulator
             if ((CacheL1.containsBlockOf(address) == false) && (CacheL2.containsBlockOf(address)))
             {
                 targetCache = CacheL1;
-                evicted = CacheL1.freeWayFor(address);
+                evicted = CacheL1.leastRecentlyUsed(address);
                 CacheL2.updateLRU(address); //  <----- read L2
                 evictFrom(CacheL1, address);
                 tag = CacheL1.getTag(address);
@@ -209,6 +209,8 @@ namespace CacheSimulator
             {
                 evictAndPut(address);
             }
+            var modified = CacheL1.blockOf(address);
+            modified.isDirty = (operation==Const.WRITE) ? (Const.DIRTY) : (modified.isDirty);
         }
 
 
@@ -218,7 +220,9 @@ namespace CacheSimulator
 
         private void handle_L2_Miss(uint address)
         {
-            List<MemoryBlock>? set = CacheL2.getSet(address);
+            List<MemoryBlock> set = CacheL2.getSet(address);
+            //if (null == set) throw new NullReferenceException("sets shouldn't be null");
+
             int setIndex = CacheL2.getSetIndex(address);
             var usedWays = CacheL2.usedWays[setIndex];
 

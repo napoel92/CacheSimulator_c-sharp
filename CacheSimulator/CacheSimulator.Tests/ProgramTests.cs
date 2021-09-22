@@ -15,10 +15,12 @@ namespace CacheSimulator.Tests
             var expectedOutputs = getExpectedFiles();
             //Assert.Equals(outputs.Length, expectedOutputs.Length);
 
+            string fail;
             for(int i=0; i< outputs.Length; ++i)
             {
                 if(FileEquals(outputs[i], expectedOutputs[i]))  continue;
-                Console.WriteLine($"didn't pass test number {i}");
+                fail = $"test_num_{i} pass";
+                Assert.AreEqual(fail, $"test_num_{i} fail");
             }
         }
 
