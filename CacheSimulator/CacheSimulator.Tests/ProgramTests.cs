@@ -60,8 +60,10 @@ namespace CacheSimulator.Tests
 
         static bool FilesAreEquals(string path1, string path2)
         {
+            Dos2Unix(path1);
             byte[] file1 = File.ReadAllBytes(path1);
             byte[] file2 = File.ReadAllBytes(path2);
+            
             if (file1.Length == file2.Length)
             {
                 for (int i = 0; i < file1.Length; i++)
@@ -137,6 +139,7 @@ namespace CacheSimulator.Tests
             string[] subDirectory = { Directory.GetCurrentDirectory(), "tests" };
             string testsDirectory = Path.Combine(subDirectory);
             var folder =  Directory.GetFiles(testsDirectory, "*.out");
+            // remove the next line if debbuging...
             foreach (string file in folder) File.Delete(file);
 
             var newFolder = Directory.GetFiles(testsDirectory, "*.out");
@@ -169,6 +172,34 @@ namespace CacheSimulator.Tests
             }
 
             return null;
+        }
+
+
+        private static void Dos2Unix(string fileName)
+        {
+            const byte CR = 0x0D;
+            const byte LF = 0x0A;
+            byte[] data = File.ReadAllBytes(fileName);
+            using (FileStream fileStream = File.OpenWrite(fileName))
+            {
+                BinaryWriter bw = new BinaryWriter(fileStream);
+                int position = 0;
+                int index = 0;
+                do
+                {
+                    index = Array.IndexOf<byte>(data, CR, position);
+                    if ((index >= 0) && (data[index + 1] == LF))
+                    {
+                        // Write before the CR
+                        bw.Write(data, position, index - position);
+                        // from LF
+                        position = index + 1;
+                    }
+                }
+                while (index >= 0);
+                bw.Write(data, position, data.Length - position);
+                fileStream.SetLength(fileStream.Position);
+            }
         }
     }
 }
