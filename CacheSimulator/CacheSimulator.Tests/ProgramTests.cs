@@ -8,28 +8,57 @@ namespace CacheSimulator.Tests
 {
     public class ProgramTests
     {
+        
+        
         [Test]
-        public void loopAllTests()
+        public static void testCache()
         {
-            var outputs = createOutputs();
-            var expectedOutputs = getExpectedFiles();
-            List<string> fails = new();
+            var resultsList = loopAllTests();
+            var result = TestPass(resultsList);
+            Assert.AreEqual("", result);
 
-            string good;
-            for(int i=0; i< outputs.Length; ++i)
+        }
+
+
+
+        private static string TestPass(List<int> resultsList)
+        {
+            string results = "";
+            string temp = "";
+            foreach (int testFaild in resultsList)
             {
-                fails.Add($"test {i} pass");
-                if (FileEquals(outputs[i], expectedOutputs[i]))  continue;
-                fails...
+                temp += $"{testFaild}, ";
             }
-            Assert.AreEqual("", fails);
-            
+            if (temp != "")
+            {
+                results = "Failed tests: " + temp.Substring(0, temp.Length - 2);
+            }
+            return results;
         }
 
 
 
 
-        static bool FileEquals(string path1, string path2)
+
+
+        private static List<int> loopAllTests()
+        {
+            var outputs = createOutputs();
+            var expectedOutputs = getExpectedFiles();
+            List<int> failed = new();
+
+            for(int i=0; i< outputs.Length; ++i)
+            {
+                if (FilesAreEquals(outputs[i], expectedOutputs[i]))  continue;
+                failed.Add(i);
+            }
+            return failed;
+        }
+
+
+
+
+        static bool FilesAreEquals(string path1, string path2)
         {
             byte[] file1 = File.ReadAllBytes(path1);
             byte[] file2 = File.ReadAllBytes(path2);
@@ -49,7 +78,9 @@ namespace CacheSimulator.Tests
 
 
 
-        public string[] createOutputs()
+
+
+        private static string[] createOutputs()
         {
             var commandFileNames = getCommandFiles();
             string filePrefix;
@@ -81,7 +112,9 @@ namespace CacheSimulator.Tests
 
 
 
-        public string[] getCommandFiles()
+
+
+        private static string[] getCommandFiles()
         {
             string[] subDirectory = { Directory.GetCurrentDirectory(), "tests" };
             string testsDirectory = Path.Combine(subDirectory);
@@ -89,14 +122,17 @@ namespace CacheSimulator.Tests
         }
 
 
-        public string[] getExpectedFiles()
+
+        private static string[] getExpectedFiles()
         {
             string[] subDirectory = { Directory.GetCurrentDirectory(), "tests" };
             string testsDirectory = Path.Combine(subDirectory);
             return Directory.GetFiles(testsDirectory, "*.OURS");
         }
 
-        public void removeOldFiles()
+
+
+        private static void removeOldFiles()
         {
             string[] subDirectory = { Directory.GetCurrentDirectory(), "tests" };
             string testsDirectory = Path.Combine(subDirectory);
@@ -111,7 +147,7 @@ namespace CacheSimulator.Tests
 
 
 
-        public string[] prepareArgs(string filePath)
+        private static string[] prepareArgs(string filePath)
         {
             List<string> arguments = null;
             using (var file = File.OpenText(filePath))
