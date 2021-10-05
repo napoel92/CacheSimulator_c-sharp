@@ -53,6 +53,8 @@ namespace CacheSimulator
         private static void parseTheInput(string[] args, Memory memory)
         {
             string filePath = args[0];
+            // mind this code-line:    var lines = File.ReadAllLines(filePath);
+
             using (var file = File.OpenText(filePath))
             {
                 if (!fileIsVerified(file))

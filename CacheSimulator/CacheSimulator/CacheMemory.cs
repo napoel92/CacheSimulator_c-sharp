@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace CacheSimulator
 {
+
+
+    
     public class CacheMemory
     {
 
@@ -21,6 +24,10 @@ namespace CacheSimulator
 
 
 
+
+        /*                      Auxiliary class for representing a layer of the cache-Memory,
+                                        i.e L1-cache or L2-cache                                                 */
+        //===============================================================================================================
         public CacheMemory(uint associativity, uint layerSize, uint blockSize, uint cyclesNum)
         {
             var setsNumber = (int)Math.Pow(2, layerSize - blockSize - associativity);

@@ -6,9 +6,7 @@ namespace CacheSimulator
 
     public class Memory
     {
-        //public CacheMemory CacheL1;
-        //public CacheMemory CacheL2;
-
+       
 
         public CacheMemory CacheL1 { get; init; }
         public CacheMemory CacheL2 { get; init; }
@@ -49,6 +47,9 @@ namespace CacheSimulator
             }
             throw new ArgumentException("there are only cache-L1 and cache-L2");
         }
+
+
+
 
 
         public void increaseAccessToCache(int cacheID)
@@ -198,7 +199,7 @@ namespace CacheSimulator
 
 
 
-
+        // acssessing the data in L2 cache, and fetching it into L1 cache after bringing it from main-Memory
         private void handle_L1_Miss(uint address, char operation)
         {
             var setIndex = CacheL1.getSetIndex(address);
@@ -219,7 +220,7 @@ namespace CacheSimulator
 
 
 
-
+        // acssessing the data in the main Memory, and fetching it into L2 cache
         private void handle_L2_Miss(uint address)
         {
             List<MemoryBlock> set = CacheL2.getSet(address);
@@ -243,7 +244,7 @@ namespace CacheSimulator
 
 
 
-
+        // keeping coherent by asserting the evacuation of data from L1 when evicting from l2
         private void L2_snoops_L1(uint address)
         {
             uint evictedAddress_L2 = CacheL2.getSet(address)[Const.LEAST_RECENTLY_USED].data;

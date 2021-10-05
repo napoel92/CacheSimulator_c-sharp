@@ -127,7 +127,7 @@ namespace CacheSimulator.Tests
 
 
         [Test]
-        public void soertListWithLambdaTest()
+        public void sortListWithLambdaTest()
         {
             //arrange
             var list = new List<int>() { 10,5,2,9,5,8,4,6,1,8,7,0 };
