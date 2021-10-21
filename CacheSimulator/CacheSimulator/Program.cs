@@ -33,8 +33,6 @@ namespace CacheSimulator
 
 
 
-
-
         private static void DisplayResults(Memory memory)
         {
             double L1MissRate = (double)memory.CacheL1.missNumber / memory.CacheL1.accessNumber;
@@ -43,7 +41,6 @@ namespace CacheSimulator
 
             Console.WriteLine($"L1miss={L1MissRate:N3} L2miss={L2MissRate:N3} AccTimeAvg={avgAccTime:N3}");
         }
-
 
 
 
@@ -85,8 +82,8 @@ namespace CacheSimulator
 
 
 
-        /*      a function to gradually access the layers
-         *      of the Memory-System to find some data                                      */
+        /*                     a function to gradually access the layers
+         *                       of the Memory-System to find some data                                      */
         //=====================================================================================
         private static void handleMemoryRequest(Memory memory, char operation, uint address)
         {
@@ -122,8 +119,8 @@ namespace CacheSimulator
 
 
 
-        /*      a method for verifying a proper
-         *      opening of the input file                                       */
+        /*                      a method for verifying a proper
+         *                       opening of the input file                                       */
         //=========================================================================
         private static bool fileIsVerified(StreamReader file)
         {
@@ -139,10 +136,10 @@ namespace CacheSimulator
 
 
 
-        /*      a method to assign all the values into
-         *      Main's variables - foe feeding the data-structure.                                              */
+        /*                         a method to assign all the values into
+         *                   Main's variables - foe feeding the data-structure.                                              */
         //=========================================================================================================
-        private static bool assignVariables(string[] args, out bool WrAlloc, out ushort MemCyc, out ushort BSize,
+        private static void assignVariables(string[] args, out bool WrAlloc, out ushort MemCyc, out ushort BSize,
                                             out ushort L1Size, out ushort L1Cyc, out ushort L1Assoc,
                                             out ushort L2Size, out ushort L2Cyc, out ushort L2Assoc)
         {
@@ -206,14 +203,13 @@ namespace CacheSimulator
                     throw new ArgumentException();
                 }
             }
-            return true;
         }
 
 
 
 
-        /*      a method to verify the acceptance of all
-         *      18 parameters that should have passed.                                      */
+        /*                      a method to verify the acceptance of all
+         *                       18 parameters that should have passed.                                      */
         //=====================================================================================
         private static bool argsAreVerified(string[] args)
         {
@@ -229,8 +225,8 @@ namespace CacheSimulator
 
 
 
-        /*      helper function for extracting decimal-integers 
-                out of boulian-representation.                                                                  */
+        /*                    helper function for extracting decimal-integers 
+                                     out of boulian-representation.                                             */
         //=========================================================================================================
         public static uint ExtractBits(uint number, int k, int p)
         {

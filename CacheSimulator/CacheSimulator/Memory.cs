@@ -3,7 +3,9 @@ using System.Collections.Generic;
 
 namespace CacheSimulator
 {
-
+    /*                     THE data-type for representing the whole memory structure.
+                                this struct is the type that main calls                                    */
+    //=========================================================================================================
     public class Memory
     {
        
@@ -33,15 +35,15 @@ namespace CacheSimulator
         
 
 
-
-        public uint accessTimeOfCache(int cacheID)
+        // returns the right value of access-time per cache's level 
+        public uint accessTimeOfCache(int level)
         {
-            if (1 == cacheID)
+            if (1 == level)
             {
                 return CacheL1.cyclesNum;
 
             }
-            else if (2 == cacheID)
+            else if (2 == level)
             {
                 return CacheL2.cyclesNum;
             }
@@ -51,16 +53,16 @@ namespace CacheSimulator
 
 
 
-
-        public void increaseAccessToCache(int cacheID)
+        // increments the counter of the access-number per cache's level 
+        public void increaseAccessToCache(int level)
         {
-            if (1 == cacheID)
+            if (1 == level)
             {
                 ++CacheL1.accessNumber;
                 return;
 
             }
-            else if (2 == cacheID)
+            else if (2 == level)
             {
                 ++CacheL2.accessNumber;
                 return;
@@ -70,7 +72,7 @@ namespace CacheSimulator
 
 
 
-
+        // increments the counter of the miss-number per cache's level 
         public void increaseMissesOfCache(int cacheID)
         {
             if (1 == cacheID)
@@ -91,7 +93,7 @@ namespace CacheSimulator
 
 
 
-
+        // acssessing the data in L1 cache
         internal void L1_Hit(uint address, char operation)
         {
             var modified = CacheL1.updateLRU(address);
@@ -102,8 +104,7 @@ namespace CacheSimulator
 
 
 
-
-
+        // acssessing the data in L2 cache
         internal void L2_Hit(uint address, char operation)
         {
             var set = CacheL1.getSet(address);
@@ -111,7 +112,7 @@ namespace CacheSimulator
             char missInL1 = operation;
 
 
-            if (/**********************************/ Const.WRITE == missInL1 /***********************************/)
+            if (/*************************/ Const.WRITE == missInL1 /***************************/)
             {
                 if ( writePolicy == Const.WRITE_ALLOCATE)        //----->> read_Hit in L2
                 {                                                   
@@ -127,7 +128,7 @@ namespace CacheSimulator
                 }
             }
 
-            else    /******************************** Const.WRITE == missInL1 ************************************/
+            else    /********************** Const.WRITE == missInL1 ****************************/
             {
                 if(CacheL1.usedWays[setIndex] < CacheL1.waysNum)
                        putInFreeWay(address);
@@ -135,11 +136,11 @@ namespace CacheSimulator
                 return;
             }
         }
-    
 
 
 
 
+        // writes a block to a full-set in the cache (assumes that Level_1 got miss)
         private MemoryBlock evictAndPut(uint address)
         {
             CacheMemory targetCache = null;
@@ -176,7 +177,7 @@ namespace CacheSimulator
 
 
 
-
+        // handles the "worst case" of accessing the ram-Memory
         internal void L1_and_L2_Miss(uint address, char operation)
         {
             if ((writePolicy == Const.NO_WRITE_ALLOCATE) && (operation == Const.WRITE))
@@ -262,7 +263,7 @@ namespace CacheSimulator
 
 
 
-
+        // vacates a block with 'address' due to 'cacheLi' got Miss for capacity or compulsary
         private void evictFrom(CacheMemory cacheLi, uint address)
         {
             var lruBlock = cacheLi.getSet(address)[0];
@@ -285,8 +286,7 @@ namespace CacheSimulator
 
 
 
-
-
+        // writes a block to a non-full-set in cache (assumes that Level_1 got miss)
         private MemoryBlock putInFreeWay(uint address)
         {
             CacheMemory targetCache = null;

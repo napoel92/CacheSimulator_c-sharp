@@ -4,15 +4,16 @@ using System.Collections.Generic;
 namespace CacheSimulator
 {
 
-
-    
+    /*                      Auxiliary struct for representing a layer of the cache-Memory,
+                                        i.e L1-cache or L2-cache                                                 */
+    //===============================================================================================================
     public class CacheMemory
     {
 
         private List<List<MemoryBlock>> sets;
         private List<uint> policyLRU;
         internal List<uint> usedWays;
-
+        //------------------------------------------------
         public uint setsNumber { get; init; }
         public uint log2BlockSize { get; init; }
         public uint cyclesNum { get; init; }
@@ -24,10 +25,6 @@ namespace CacheSimulator
 
 
 
-
-        /*                      Auxiliary class for representing a layer of the cache-Memory,
-                                        i.e L1-cache or L2-cache                                                 */
-        //===============================================================================================================
         public CacheMemory(uint associativity, uint layerSize, uint blockSize, uint cyclesNum)
         {
             var setsNumber = (int)Math.Pow(2, layerSize - blockSize - associativity);
@@ -53,7 +50,7 @@ namespace CacheSimulator
 
 
 
-
+        // checks if this cache-level is currently holding the address's block
         internal bool containsBlockOf(uint address)
         {
             List<MemoryBlock> set = getSet(address);
@@ -72,7 +69,7 @@ namespace CacheSimulator
 
 
 
-
+        // gets the tag of the address in this level-cache's point of view
         internal uint getTag(uint address)
         {
             int log2Ways = (int)Math.Log2(waysNum);
@@ -84,7 +81,7 @@ namespace CacheSimulator
 
 
 
-
+        // gets the correct set-number by the address that maps into it
         internal int getSetIndex(uint address)
         {
             int setBits = (int)Math.Log2(setsNumber);
@@ -95,7 +92,7 @@ namespace CacheSimulator
 
 
 
-
+        // gets the set in which the address is mapped to
         internal List<MemoryBlock> getSet(uint address)
         {
             int i = getSetIndex(address);
@@ -106,7 +103,7 @@ namespace CacheSimulator
 
 
 
-
+        // method for managing the policy of Blocks-evacuation from the cache
         internal MemoryBlock updateLRU(uint address)
         {
             int i = getSetIndex(address);            
@@ -120,7 +117,7 @@ namespace CacheSimulator
 
 
 
-
+        // gets the memory-block in which 'address' is a part of it
         internal MemoryBlock  blockOf(uint address)
         {
             List<MemoryBlock> set = getSet(address);
@@ -142,7 +139,7 @@ namespace CacheSimulator
 
 
 
-
+        //finds the free-way in the relevant set for this cache-layer. (assums THERE IS a free way)
         internal MemoryBlock freeWayFor(uint address)
         {
             var set = getSet(address);
@@ -156,7 +153,6 @@ namespace CacheSimulator
                 }
             }
 
-
             throw new Exception("there was supposed to be a free block in the set while inserting");
         }
 
@@ -164,7 +160,7 @@ namespace CacheSimulator
 
 
 
-
+        //finds the least-recently-used way in the relevant set for this cache-level. (assums THERE IS a free way)
         internal MemoryBlock leastRecentlyUsed(uint address)
         {
             var lruBlock = getSet(address)[Const.LEAST_RECENTLY_USED];

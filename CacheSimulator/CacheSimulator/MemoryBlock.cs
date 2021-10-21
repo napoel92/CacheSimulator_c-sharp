@@ -1,4 +1,7 @@
 ﻿namespace CacheSimulator
+
+
+
 {
     /*      Auxiliary struct for representing a block from the main-Memory,
             that should be (or already) stored inside the cache-Memory          */

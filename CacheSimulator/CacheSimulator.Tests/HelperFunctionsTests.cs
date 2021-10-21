@@ -132,10 +132,13 @@ namespace CacheSimulator.Tests
             //arrange
             var list = new List<int>() { 10,5,2,9,5,8,4,6,1,8,7,0 };
             bool notSorted = true;
-            for(int i = 0; i < list.Count-1; ++i) 
+            for(int i = 0; i < list.Count; ++i) 
             {
                 if (i == list.Count - 1) { notSorted = false; break; }
                 if (list[i] <= list[i + 1]) continue;
+                break;
+
+
             }
 
 
@@ -146,6 +149,8 @@ namespace CacheSimulator.Tests
             {
                 if (i == list.Count - 1) { notSorted = false; break; }
                 if (list[i] <= list[i + 1]) continue;
+                break;
+
             }
 
             //assert
